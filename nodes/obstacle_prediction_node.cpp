@@ -25,10 +25,15 @@ int main(int argc, char **argv)
         ROS_ERROR_STREAM("obstacle_prediction_node Parameter " << ros::this_node::getName()+"/horizon_N not set");
         return 0;
     }
-//    horizon_N = 20;     // for debugging
+    int id;                                      // prediction horizon length
+    if (!nh.getParam(ros::this_node::getName()+"/id", id))
+    {
+        ROS_ERROR_STREAM("obstacle_prediction_node Parameter " << ros::this_node::getName()+"/id not set");
+        return 0;
+    }
 
     // Initialize a class object and pass node handle for constructor
-    Obstacle_Prediction obstacle_prediction(nh, delta_t, horizon_N);
+    Obstacle_Prediction obstacle_prediction(nh, delta_t, horizon_N,id);
 
     // Let ROS handle all callbacks
     // specify the publishing rate

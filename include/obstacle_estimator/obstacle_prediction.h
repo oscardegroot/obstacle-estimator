@@ -32,7 +32,7 @@ class Obstacle_Prediction
 {
 public:
     //! Constructor, "main" will need to instantiate a ROS nodehandle, then pass it to the constructor
-    explicit Obstacle_Prediction(ros::NodeHandle nh, double delta_t, int horizon_N);
+    explicit Obstacle_Prediction(ros::NodeHandle nh, double delta_t, int horizon_N, int id);
 
 private:
     //! Ros node handle
@@ -53,7 +53,8 @@ private:
 
     //! Time information for predictor
     double              delta_t_;               // delta t of the predicted horizon
-    int                 horizon_N_;             // prediction horizon length             
+    int                 horizon_N_;             // prediction horizon length
+    int id; // obstacle id
 
     //! Obstacle estimation and prediction
     Eigen::Matrix<double, 6, 1> state_estimated_;       // estimated state (pos & vel)

@@ -6,7 +6,7 @@
 #include <obstacle_estimator/obstacle_prediction.h>
 
 // Constructor:  this will get called whenever an instance of this class is created
-Obstacle_Prediction::Obstacle_Prediction(ros::NodeHandle nh, double delta_t, int horizon_N): nh_(nh), delta_t_(delta_t), horizon_N_(horizon_N)
+Obstacle_Prediction::Obstacle_Prediction(ros::NodeHandle nh, double delta_t, int horizon_N, int id): nh_(nh), delta_t_(delta_t), horizon_N_(horizon_N), id(id)
 {
     ROS_INFO("In class constructor of Obstacle_Prediction");
 
@@ -196,7 +196,7 @@ void Obstacle_Prediction::subscriberCallback(const geometry_msgs::PoseStamped &m
         // store into the published message
         msg_pub.data[0 + 4*i] = state_now[0];
         msg_pub.data[1 + 4*i] = state_now[1];
-        msg_pub.data[2 + 4*i] = state_now[2];
+        msg_pub.data[2 + 4*i] = id;
         msg_pub.data[3 + 4*i] = yaw_measured;   // yaw is assumed to be constant
         // predicted state
         state_next = F*state_now;
