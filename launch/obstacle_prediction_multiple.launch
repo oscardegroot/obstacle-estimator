@@ -5,12 +5,12 @@
     		respawn="false"
     		launch-prefix=""
     		required="true">
-			<param name="delta_t" value="0.2" />
-			<param name="horizon_N" value="15" />
+			<param name="delta_t" value="0.05" />
+			<param name="horizon_N" value="80" />
 			<param name="id" value="1" />
-			<remap from="/obstacle/pose" to="/pedestrian1/pose"/>
-			<remap from="/obstacle/state_estimation" to="/Target1/state_estimation"/>
-			<remap from="/obstacle/path_prediction" to="/Target1/path_orien_prediction"/>
+			<remap from="/obstacle/pose" to="/mocap_obstacle1/pose"/>
+			<remap from="/obstacle/state_estimation" to="/pedestrian1/state_estimation"/>
+			<remap from="/obstacle/path_prediction" to="/pedestrian1/prediction"/>
   	</node>
 
 
@@ -20,12 +20,12 @@
 			 respawn="false"
 			 launch-prefix=""
 			 required="true">
-			 <param name="delta_t" value="0.2" />
-			 <param name="horizon_N" value="15" />
+			 <param name="delta_t" value="0.05" />
+			 <param name="horizon_N" value="80" />
 			 <param name="id" value="2" />
-			 <remap from="/obstacle/pose" to="/pedestrian1/pose"/>
-			 <remap from="/obstacle/state_estimation" to="/Target2/state_estimation"/>
-			 <remap from="/obstacle/path_prediction" to="/Target1/path_orien_prediction"/>
+			 <remap from="/obstacle/pose" to="/mocap_obstacle2/pose"/>
+			 <remap from="/obstacle/state_estimation" to="/pedestrian2/state_estimation"/>
+			 <remap from="/obstacle/path_prediction" to="/pedestrian2/prediction"/>
 	</node>
 
 </launch>

@@ -31,7 +31,9 @@ Obstacle_Prediction::Obstacle_Prediction(ros::NodeHandle nh, double delta_t, int
 
     time_stamp_ = ros::Time::now();
     time_stamp_previous_ = ros::Time::now();
-    dt_ = 0.01;
+    dt_ = delta_t;
+
+    publish_counter_ = 0;
 }
 
 
@@ -204,9 +206,14 @@ void Obstacle_Prediction::subscriberCallback(const geometry_msgs::PoseStamped &m
         state_now = state_next;
     }
 
-    // publish the message
-    pub_.publish(msg_pub);
 
+
+    // publish the message
+
+    if(publish_counter_ % 6 == 0) 
+        pub_.publish(msg_pub);
+
+    publish_counter_++;
     // set time
     time_stamp_previous_ = time_stamp_;
 }

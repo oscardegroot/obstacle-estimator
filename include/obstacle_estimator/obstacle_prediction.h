@@ -55,6 +55,7 @@ private:
     double              delta_t_;               // delta t of the predicted horizon
     int                 horizon_N_;             // prediction horizon length
     int id; // obstacle id
+    int publish_counter_;
 
     //! Obstacle estimation and prediction
     Eigen::Matrix<double, 6, 1> state_estimated_;       // estimated state (pos & vel)
