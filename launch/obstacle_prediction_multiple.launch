@@ -1,31 +1,12 @@
 <launch>
+	<!-- <arg name="n_predictors" default="1"/> -->
+    <rosparam command="load" file="$(find obstacle-estimator)/config/params.yaml"/>
   	<node 	pkg="obstacle_estimator"
     		type="obstacle_prediction_node"
-    		name="obstacle_prediction_node_1"
+    		name="obstacle_prediction_node"
     		respawn="false"
     		launch-prefix=""
     		required="true">
-			<param name="delta_t" value="0.05" />
-			<param name="horizon_N" value="80" />
-			<param name="id" value="1" />
-			<remap from="/obstacle/pose" to="/mocap_obstacle1/pose"/>
-			<remap from="/obstacle/state_estimation" to="/pedestrian1/state_estimation"/>
-			<remap from="/obstacle/path_prediction" to="/pedestrian1/prediction"/>
   	</node>
-
-
-	<node 	pkg="obstacle_estimator"
-			 type="obstacle_prediction_node"
-			 name="obstacle_prediction_node_2"
-			 respawn="false"
-			 launch-prefix=""
-			 required="true">
-			 <param name="delta_t" value="0.05" />
-			 <param name="horizon_N" value="80" />
-			 <param name="id" value="2" />
-			 <remap from="/obstacle/pose" to="/mocap_obstacle2/pose"/>
-			 <remap from="/obstacle/state_estimation" to="/pedestrian2/state_estimation"/>
-			 <remap from="/obstacle/path_prediction" to="/pedestrian2/prediction"/>
-	</node>
 
 </launch>

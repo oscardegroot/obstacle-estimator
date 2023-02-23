@@ -23,9 +23,9 @@ include_directories(
  include/${PROJECT_NAME}
 )
 
-add_executable(obstacle_filter_node nodes/obstacle_filter_node.cpp src/obstacle_filter.cpp)
+add_executable(obstacle_filter_node nodes/obstacle_filter_node.cpp src/obstacle_filter.cpp src/config.cpp)
 target_link_libraries(obstacle_filter_node ${catkin_LIBRARIES})
-add_executable(obstacle_prediction_node nodes/obstacle_prediction_node.cpp src/obstacle_prediction.cpp)
+add_executable(obstacle_prediction_node nodes/obstacle_prediction_node.cpp src/obstacle_prediction.cpp src/config.cpp)
 target_link_libraries(obstacle_prediction_node ${catkin_LIBRARIES})
 
 ## For debugging

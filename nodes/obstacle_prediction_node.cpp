@@ -3,50 +3,24 @@
 //
 
 #include <obstacle_estimator/obstacle_prediction.h>
+#include <obstacle_estimator/config.h>
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-    // Set up ROS
-    ros::init(argc, argv, "obstacle_prediction_node");  // node name
-    ros::NodeHandle nh;                                 // create a node handle
+  // Set up ROS
+  ros::init(argc, argv, "obstacle_prediction_node");  // node name
+  ros::NodeHandle nh;                                 // create a node handle
 
-    // Set parameters
-    double delta_t;                                     // delta t for prediction
-    if (!nh.getParam(ros::this_node::getName()+"/delta_t", delta_t))
-    {
-        ROS_ERROR_STREAM("obstacle_prediction_node Parameter " << ros::this_node::getName()+"/delta_t not set");
-        return 0;
-    }
-//    delta_t = 0.6;     // for debugging
+  Config config_;
+  config_.Init();
 
-    int horizon_N;                                      // prediction horizon length
-    if (!nh.getParam(ros::this_node::getName()+"/horizon_N", horizon_N))
-    {
-        ROS_ERROR_STREAM("obstacle_prediction_node Parameter " << ros::this_node::getName()+"/horizon_N not set");
-        return 0;
-    }
-    int id;                                      // prediction horizon length
-    if (!nh.getParam(ros::this_node::getName()+"/id", id))
-    {
-        ROS_ERROR_STREAM("obstacle_prediction_node Parameter " << ros::this_node::getName()+"/id not set");
-        return 0;
-    }
+  std::vector<Obstacle_Prediction> predictors_;
+  for (int i = 0; i < config_.max_predictors_; i++)
+  {
+    predictors_.emplace_back(nh, i);
+  }
 
-    // Initialize a class object and pass node handle for constructor
-    Obstacle_Prediction obstacle_prediction(nh, delta_t, horizon_N,id);
+  ros::spin();
 
-    // Let ROS handle all callbacks
-    // specify the publishing rate
-    // ros::Rate loop_rate(node_rate);
-    // while (ros::ok())
-    // {
-    //     ros::spinOnce();
-    //     loop_rate.sleep();
-    // }
-
-    // not specify the publishing rate
-    ros::spin();
-
-
-    return 0;
+  return 0;
 }

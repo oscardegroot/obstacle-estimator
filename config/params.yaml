@@ -1,0 +1,8 @@
+# <param name="id" value="1" />
+
+obstacle_estimator:
+  dt: 0.05      # s Integration step
+  N: 80         # steps
+  rate_in: 120 # Hz
+  rate_out: 20 # Hz
+  max_predictors: 6
