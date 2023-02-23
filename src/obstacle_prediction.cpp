@@ -5,10 +5,12 @@
 #include <obstacle_estimator/obstacle_prediction.h>
 
 // Constructor:  this will get called whenever an instance of this class is created
-Obstacle_Prediction::Obstacle_Prediction(ros::NodeHandle nh, int id) : nh_(nh), id(id)
+Obstacle_Prediction::Obstacle_Prediction(ros::NodeHandle nh, int id)
 {
+  nh_ = nh;
+  id_ = id;
   ROS_INFO("In class constructor of Obstacle_Prediction");
-
+  std::cout << id_ << std::endl;
   config_.Init();
 
   // Initialization subscriber and publisher
@@ -41,7 +43,9 @@ Obstacle_Prediction::Obstacle_Prediction(ros::NodeHandle nh, int id) : nh_(nh), 
 void Obstacle_Prediction::initializeSubscribers()
 {
   ROS_INFO("Initializing subscribers");
-  sub_ = nh_.subscribe("/obstacle" + std::to_string(id) + "/pose", 1, &Obstacle_Prediction::subscriberCallback, this);
+  std::cout << "/mocap_obstacle" + std::to_string(id_) + "/pose" << std::endl;
+  sub_ = nh_.subscribe("/mocap_obstacle" + std::to_string(id_) + "/pose", 1, &Obstacle_Prediction::subscriberCallback,
+                       this);
   //    sub_ = nh_.subscribe("/Target1/pose", 1, &Obstacle_Prediction::subscriberCallback, this);      // for debugging
 }
 
@@ -49,14 +53,17 @@ void Obstacle_Prediction::initializeSubscribers()
 void Obstacle_Prediction::initializePublishers()
 {
   ROS_INFO("Initializing publishers");
-  pub_ = nh_.advertise<std_msgs::Float64MultiArray>("/obstacle" + std::to_string(id) + "/path_prediction", 1, true);
-  odo_pub_ = nh_.advertise<nav_msgs::Odometry>("/obstacle" + std::to_string(id) + "/state_estimation", 1, true);
+  std::cout << "/obstacle" + std::to_string(id_) + "/path_prediction" << std::endl;
+
+  pub_ = nh_.advertise<std_msgs::Float64MultiArray>("/obstacle" + std::to_string(id_) + "/path_prediction", 1, true);
+  odo_pub_ = nh_.advertise<nav_msgs::Odometry>("/obstacle" + std::to_string(id_) + "/state_estimation", 1, true);
   //    pub_ = nh_.advertise<std_msgs::Float64MultiArray>("/Target1/path_prediction", 1, true);     // for debugging
 }
 
 // Subscriber callback function
 void Obstacle_Prediction::subscriberCallback(const geometry_msgs::PoseStamped& msg)
 {
+  std::cout << "hi!" << std::endl;
   // the real work is done in this callback function
   // it wakes up every time a new message is published on obstacle_sub_topic_
 
@@ -174,7 +181,7 @@ void Obstacle_Prediction::subscriberCallback(const geometry_msgs::PoseStamped& m
     // store into the published message
     msg_pub.data[0 + 4 * i] = state_now[0];
     msg_pub.data[1 + 4 * i] = state_now[1];
-    msg_pub.data[2 + 4 * i] = id;
+    msg_pub.data[2 + 4 * i] = id_;
     msg_pub.data[3 + 4 * i] = yaw_measured;  // yaw is assumed to be constant
     // predicted state
     state_next = F * state_now;

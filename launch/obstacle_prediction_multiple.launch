@@ -1,12 +1,7 @@
 <launch>
 	<!-- <arg name="n_predictors" default="1"/> -->
-    <rosparam command="load" file="$(find obstacle-estimator)/config/params.yaml"/>
-  	<node 	pkg="obstacle_estimator"
-    		type="obstacle_prediction_node"
-    		name="obstacle_prediction_node"
-    		respawn="false"
-    		launch-prefix=""
-    		required="true">
+    <rosparam command="load" file="$(find obstacle_estimator)/config/params.yaml"/>
+  	<node pkg="obstacle_estimator" type="obstacle_prediction_node" name="obstacle_prediction_node" respawn="false" required="true">
   	</node>
 
 </launch>

@@ -7,10 +7,11 @@
 
 int main(int argc, char** argv)
 {
+  std::cout << "hhhhhi!" << std::endl;
   // Set up ROS
   ros::init(argc, argv, "obstacle_prediction_node");  // node name
   ros::NodeHandle nh;                                 // create a node handle
-
+  std::cout << "super hi!" << std::endl;
   Config config_;
   config_.Init();
 
