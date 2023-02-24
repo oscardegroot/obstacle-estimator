@@ -7,10 +7,10 @@
 // Constructor:  this will get called whenever an instance of this class is created
 Obstacle_Prediction::Obstacle_Prediction(ros::NodeHandle nh, int id)
 {
+  ROS_INFO_STREAM("Initializing KF for obstacle " << id);
+
   nh_ = nh;
   id_ = id;
-  ROS_INFO("In class constructor of Obstacle_Prediction");
-  std::cout << id_ << std::endl;
   config_.Init();
 
   // Initialization subscriber and publisher
@@ -43,33 +43,21 @@ Obstacle_Prediction::Obstacle_Prediction(ros::NodeHandle nh, int id)
 void Obstacle_Prediction::initializeSubscribers()
 {
   ROS_INFO("Initializing subscribers");
-  std::cout << "/mocap_obstacle" + std::to_string(id_) + "/pose" << std::endl;
   sub_ = nh_.subscribe("/mocap_obstacle" + std::to_string(id_) + "/pose", 1, &Obstacle_Prediction::subscriberCallback,
                        this);
-  //    sub_ = nh_.subscribe("/Target1/pose", 1, &Obstacle_Prediction::subscriberCallback, this);      // for debugging
 }
 
 // Set up publisher
 void Obstacle_Prediction::initializePublishers()
 {
   ROS_INFO("Initializing publishers");
-  std::cout << "/obstacle" + std::to_string(id_) + "/path_prediction" << std::endl;
-
   pub_ = nh_.advertise<std_msgs::Float64MultiArray>("/obstacle" + std::to_string(id_) + "/path_prediction", 1, true);
   odo_pub_ = nh_.advertise<nav_msgs::Odometry>("/obstacle" + std::to_string(id_) + "/state_estimation", 1, true);
-  //    pub_ = nh_.advertise<std_msgs::Float64MultiArray>("/Target1/path_prediction", 1, true);     // for debugging
 }
 
 // Subscriber callback function
 void Obstacle_Prediction::subscriberCallback(const geometry_msgs::PoseStamped& msg)
 {
-  std::cout << "hi!" << std::endl;
-  // the real work is done in this callback function
-  // it wakes up every time a new message is published on obstacle_sub_topic_
-
-  // for debugging
-  // ROS_INFO("Filtering");
-
   // get measured position
   pos_measured_(0) = msg.pose.position.x;
   pos_measured_(1) = msg.pose.position.y;
