@@ -5,4 +5,4 @@ obstacle_estimator:
   N: 80         # steps
   rate_in: 120 # Hz
   rate_out: 20 # Hz
-  max_predictors: 1
+  max_predictors: 2

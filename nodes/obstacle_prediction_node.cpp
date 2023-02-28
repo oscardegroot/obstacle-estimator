@@ -19,6 +19,9 @@ int main(int argc, char** argv)
     predictors_.emplace_back(nh, i);
   }
 
+  // derived_object_msgs::ObjectArray& msg;
+  // for(predict)
+
   ros::spin();
 
   return 0;

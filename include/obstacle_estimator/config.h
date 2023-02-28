@@ -13,8 +13,7 @@ public:
   double dt_;
   int N_;
 
-  double rate_in_;
-  double rate_out_;
+  double rate_out_, dt_out_;
 
   int max_predictors_;
 

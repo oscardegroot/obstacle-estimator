@@ -52,7 +52,8 @@ private:
   //! Time information for filter
   ros::Time time_stamp_;           // time stamp of current measurement
   ros::Time time_stamp_previous_;  // time stamp of last measurement
-  double dt_;                      // time difference between two measurements
+  double dt_publish_;
+  double dt_;  // time difference between two measurements
 
   //! Time information for predictor
   //   double delta_t_;  // delta t of the predicted horizon

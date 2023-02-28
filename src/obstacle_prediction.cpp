@@ -10,7 +10,7 @@ Obstacle_Prediction::Obstacle_Prediction(ros::NodeHandle nh, int id)
   ROS_INFO_STREAM("Initializing KF for obstacle " << id);
 
   nh_ = nh;
-  id_ = id;
+  id_ = id + 1;  // Because mocap starts at "1"
   config_.Init();
 
   // Initialization subscriber and publisher
@@ -35,6 +35,7 @@ Obstacle_Prediction::Obstacle_Prediction(ros::NodeHandle nh, int id)
   time_stamp_ = ros::Time::now();
   time_stamp_previous_ = ros::Time::now();
   dt_ = config_.dt_;
+  dt_publish_ = ros::Time::now().toSec();
 
   publish_counter_ = 0;
 }
@@ -68,6 +69,7 @@ void Obstacle_Prediction::subscriberCallback(const geometry_msgs::PoseStamped& m
 
   // time difference. If using the node_rate to derive, then comment the following lines
   dt_ = (time_stamp_ - time_stamp_previous_).toSec();  // sec
+  // dt_publish_ += dt_;
 
   // perform Kalman Filtering
   // matrix of state transition model
@@ -179,8 +181,13 @@ void Obstacle_Prediction::subscriberCallback(const geometry_msgs::PoseStamped& m
 
   // publish the message
 
-  if (publish_counter_ % 6 == 0)
+  if ((ros::Time::now().toSec() - dt_publish_) > config_.dt_out_)
+  {
+    // std::cout << "publishing KF for ID = " << id_ << " (x = " << state_now[0] << ", " << state_now[1] << ")"
+    //           << std::endl;
     pub_.publish(msg_pub);
+    dt_publish_ = ros::Time::now().toSec();
+  }
 
   publish_counter_++;
   // set time
