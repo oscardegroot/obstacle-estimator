@@ -2,11 +2,11 @@
 
 void Config::Init()
 {
-  ROS_INFO("Initializing obstacle_estimator (KF)");
-
-  ros::NodeHandle nh_config;
   ros::NodeHandle nh;
 
+  ROS_INFO("Initializing obstacle_estimator (KF)");
+
+  retrieveParameter(nh, "obstacle_estimator/debug", debug_);
   retrieveParameter(nh, "obstacle_estimator/dt", dt_);
   retrieveParameter(nh, "obstacle_estimator/N", N_);
 

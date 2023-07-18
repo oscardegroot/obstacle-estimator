@@ -5,24 +5,23 @@
 #include <obstacle_estimator/obstacle_prediction.h>
 #include <obstacle_estimator/config.h>
 
-int main(int argc, char** argv)
+std::vector<std::unique_ptr<ObstacleKF>> predictors_;
+
+int main(int argc, char **argv)
 {
   // Set up ROS
-  ros::init(argc, argv, "obstacle_prediction_node");  // node name
-  ros::NodeHandle nh;                                 // create a node handle
-  Config config_;
-  config_.Init();
+  ros::init(argc, argv, "obstacle_prediction_node"); // node name
 
-  std::vector<Obstacle_Prediction> predictors_;
-  for (int i = 0; i < config_.max_predictors_; i++)
+  ros::NodeHandle nh; // create a node handle
+
+  CONFIG.Init();
+
+  for (int i = 0; i < CONFIG.max_predictors_; i++)
   {
-    predictors_.emplace_back(nh, i);
+    predictors_.emplace_back(nullptr);
+    predictors_.back().reset(new ObstacleKF(i));
   }
 
-  // derived_object_msgs::ObjectArray& msg;
-  // for(predict)
-
   ros::spin();
-
   return 0;
 }

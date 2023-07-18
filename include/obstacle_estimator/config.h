@@ -1,15 +1,29 @@
-#pragma once
+#ifndef CONFIG_OBSTACLE_H
+#define CONFIG_OBSTACLE_H
 
 #include <ros/ros.h>
+
+#define CONFIG Config::Get()
 
 class Config
 {
 public:
-  Config(){};
+  // Singleton function
+  static Config &Get()
+  {
+    static Config instance_;
 
-public:
+    return instance_;
+  }
+
+  Config(){};
+  Config(const Config &) = delete;
+
+  ~Config(){};
+
   void Init();
 
+  bool debug_;
   double dt_;
   int N_;
 
@@ -17,7 +31,7 @@ public:
 
   int max_predictors_;
 
-private:
+public:
   /**
    * @brief Retrieve a parameter from the ROS parameter server, return false if it failed
    *
@@ -29,7 +43,7 @@ private:
    * @return false If variable does not exist
    */
   template <class T>
-  bool retrieveParameter(const ros::NodeHandle& nh, const std::string& name, T& value)
+  bool retrieveParameter(const ros::NodeHandle &nh, const std::string &name, T &value)
   {
     if (!nh.getParam(name, value))
     {
@@ -52,7 +66,7 @@ private:
    * @param default_value Default value to use if the variable does not exist
    */
   template <class T>
-  void retrieveParameter(const ros::NodeHandle& nh, const std::string& name, T& value, const T& default_value)
+  void retrieveParameter(const ros::NodeHandle &nh, const std::string &name, T &value, const T &default_value)
   {
     if (!nh.getParam(name, value))
     {
@@ -63,8 +77,8 @@ private:
   }
 
   template <class L>
-  void retrieveParameter(const ros::NodeHandle& nh, const std::string& name, std::vector<L>& value,
-                         const std::vector<L>& default_value)
+  void retrieveParameter(const ros::NodeHandle &nh, const std::string &name, std::vector<L> &value,
+                         const std::vector<L> &default_value)
   {
     if (!nh.getParam(name, value))
     {
@@ -74,3 +88,4 @@ private:
     }
   }
 };
+#endif
