@@ -1,6 +1,6 @@
 obstacle_estimator:
   debug: false
   dt: 0.2      # s Integration step
-  N: 30         # steps
+  N: 20         # steps
   rate_out: 20 # Hz
-  max_predictors: 12
+  max_predictors: 5 #12
